@@ -9,9 +9,14 @@ const routes = [
   { 
     path: '/dashboard', 
     name: 'Dashboard', 
-    component: () => import('../views/Dashboard.vue'), // 🚀 Lazy loading
+    component: () => import('../views/Dashboard.vue'), // 🚀 Lazy loading Layout
     meta: { requiresAuth: true },
     children: [
+      {
+        path: '',
+        name: 'DashboardOverview',
+        component: () => import('../views/DashboardOverview.vue')
+      }
       // Aquí agregaremos las rutas hijas que se cargarán al hacer click en el Sidebar
     ]
   }
