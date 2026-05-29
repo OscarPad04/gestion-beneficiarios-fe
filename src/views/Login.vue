@@ -3,46 +3,54 @@
     <div class="card">
       <div class="badge">Acceso seguro</div>
       <h2>Iniciar sesión</h2>
-      <p class="subtitle">Ingresa tus credenciales para continuar al panel.</p>
+      <p class="subtitle">Ingresa tus credenciales para continuar al panel de gestión.</p>
       <form @submit.prevent="onSubmit">
         <label>Correo</label>
-        <input v-model="correo" placeholder="correo o usuario" />
+        <input 
+          v-model="correo" 
+          placeholder="tu@email.com" 
+          type="email"
+          :disabled="isLoading"
+        />
 
-        <label>Password</label>
-        <input v-model="password" type="password" placeholder="password" />
+        <label>Contraseña</label>
+        <input 
+          v-model="password" 
+          type="password" 
+          placeholder="••••••••"
+          :disabled="isLoading"
+        />
 
-        <button type="submit">Entrar</button>
+        <button type="submit" :disabled="isLoading">
+          {{ isLoading ? 'Iniciando sesión...' : 'Entrar' }}
+        </button>
       </form>
+      
       <p class="error" v-if="error">{{ error }}</p>
-      <p class="hint">Acceso de prueba local habilitado para validar la pantalla.</p>
+      <p class="hint" v-if="!error">Sistema de gestión de beneficiarios</p>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import api from '../services/api'
+import { useAuth } from '../composables/useAuth'
 
 export default defineComponent({
   name: 'LoginView',
   setup() {
     const correo = ref<string>('')
     const password = ref<string>('')
-    const error = ref<string>('')
+    const { login, isLoading, error } = useAuth()
 
     const onSubmit = async () => {
-      error.value = ''
-      if (correo.value === '12345' && password.value === '12345') {
-        localStorage.setItem('access_token', 'fake-jwt-token')
-        localStorage.setItem('usuario', JSON.stringify({ correo: correo.value }))
-        window.location.href = '/dashboard'
+      if (!correo.value || !password.value) {
         return
       }
-
-      error.value = 'Credenciales inválidas'
+      await login(correo.value, password.value)
     }
 
-    return { correo, password, error, onSubmit }
+    return { correo, password, error, isLoading, onSubmit }
   }
 })
 </script>
@@ -57,8 +65,10 @@ form{display:grid;gap:14px}
 label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px}
 input{width:100%;padding:14px 16px;border:1px solid #d6dbe6;border-radius:14px;background:#fff;font-size:15px;transition:box-shadow .2s,border-color .2s,transform .15s;outline:none}
 input:focus{border-color:#7aa2ff;box-shadow:0 0 0 4px rgba(43,124,255,.12)}
-button{margin-top:6px;width:100%;padding:14px 16px;border:0;border-radius:14px;background:linear-gradient(135deg,#2b7cff,#5d8cff);color:white;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 12px 24px rgba(43,124,255,.25)}
-button:hover{transform:translateY(-1px)}
-.error{color:#b42318;margin-top:14px;font-size:14px;background:#fff1f0;border:1px solid #ffd4d0;padding:12px 14px;border-radius:12px}
-.hint{margin-top:14px;color:#6b7280;font-size:13px;text-align:center}
+input:disabled{opacity:0.6;cursor:not-allowed}
+button{margin-top:6px;width:100%;padding:14px 16px;border:0;border-radius:14px;background:linear-gradient(135deg,#2b7cff,#5d8cff);color:white;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 12px 24px rgba(43,124,255,.25);transition:transform .15s}
+button:hover:not(:disabled){transform:translateY(-1px)}
+button:disabled{opacity:0.7;cursor:not-allowed}
+.error{color:#b42318;margin-top:14px;font-size:14px;background:#fff1f0;border:1px solid #ffd4d0;padding:12px 14px;border-radius:12px;margin-bottom:0}
+.hint{margin-top:14px;color:#6b7280;font-size:13px;text-align:center;margin-bottom:0}
 </style>
