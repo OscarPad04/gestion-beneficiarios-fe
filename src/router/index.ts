@@ -16,8 +16,12 @@ const routes = [
         path: '',
         name: 'DashboardOverview',
         component: () => import('../views/DashboardOverview.vue')
+      },
+      {
+        path: 'usuarios',
+        name: 'Usuarios',
+        component: () => import('../views/Usuarios.vue')
       }
-      // Aquí agregaremos las rutas hijas que se cargarán al hacer click en el Sidebar
     ]
   }
 ]
