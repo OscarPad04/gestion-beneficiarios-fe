@@ -26,6 +26,16 @@ const routes = [
         path: 'zonas',
         name: 'Zonas',
         component: () => import('../views/Zonas.vue')
+      },
+      {
+        path: 'familias',
+        name: 'Familias',
+        component: () => import('../views/Familias.vue')
+      },
+      {
+        path: 'familias/:id',
+        name: 'FamiliaDetalle',
+        component: () => import('../views/FamiliaDetalle.vue')
       }
     ]
   }
