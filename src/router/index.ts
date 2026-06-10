@@ -43,6 +43,11 @@ const routes = [
         path: 'donantes',
         name: 'DashboardDonantes',
         component: () => import('../views/dashboard/Donantes.vue')
+      },
+      {
+        path: 'entregas',
+        name: 'DashboardEntregas',
+        component: () => import('../views/dashboard/Entregas.vue')
       }
     ]
   }

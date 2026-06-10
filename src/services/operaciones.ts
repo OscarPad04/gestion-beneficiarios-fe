@@ -1,5 +1,5 @@
 import api from './api'
-import type { 
+import type {
   Entrega, EntregaCreate,
   InventarioConsultaResponse,
   InventarioAlertasResponse,
@@ -11,6 +11,11 @@ import type {
 export class EntregaService {
   async registrar(data: EntregaCreate): Promise<Entrega> {
     const response = await api.post<Entrega>('/entregas/', data)
+    return response.data
+  }
+
+  async listar(): Promise<Entrega[]> {
+    const response = await api.get<Entrega[]>('/entregas/')
     return response.data
   }
 
