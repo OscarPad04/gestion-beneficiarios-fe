@@ -6,7 +6,8 @@ import type {
   FocoSanitario, FocoSanitarioCreate,
   IndicadoresPanelResponse,
   PlanDistribucion,
-  GenerarPlanResponse
+  GenerarPlanResponse,
+  MapaResumenResponse
 } from '../types'
 
 // Entregas
@@ -81,8 +82,8 @@ export class IndicadoresService {
 
 // Mapa
 export class MapaService {
-  async obtenerResumen(idZona?: number, limiteEntregas: number = 20): Promise<any> {
-    const response = await api.get('/mapa/resumen', {
+  async obtenerResumen(idZona?: number, limiteEntregas: number = 20): Promise<MapaResumenResponse> {
+    const response = await api.get<MapaResumenResponse>('/mapa/resumen', {
       params: { id_zona: idZona, limite_entregas: limiteEntregas }
     })
     return response.data

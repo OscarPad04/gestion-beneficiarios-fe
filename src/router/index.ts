@@ -80,6 +80,11 @@ const routes = [
         component: () => import('../views/dashboard/FocosSanitarios.vue')
       },
       {
+        path: 'mapa',
+        name: 'DashboardMapa',
+        component: () => import('../views/dashboard/Mapa.vue')
+      },
+      {
         path: 'audit-logs',
         name: 'DashboardAuditLogs',
         component: () => import('../views/dashboard/AuditLogs.vue')

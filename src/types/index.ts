@@ -369,6 +369,35 @@ export interface AuditLogFilters {
   offset?: number
 }
 
+// Mapa geográfico unificado (GET /mapa/resumen)
+export type TipoMapaFeature = 'refugio' | 'bodega' | 'entrega' | 'familia' | 'zona'
+
+export interface MapaFeatureProperties {
+  id: number
+  tipo: TipoMapaFeature | string
+  estado?: string
+  color?: string
+  nombre?: string | null
+  porcentaje?: number | null
+  tiene_alerta?: boolean
+  zona_id?: number | null
+  codigo?: string | null
+}
+
+export interface MapaGeoFeature {
+  type: 'Feature'
+  geometry: {
+    type: 'Point'
+    coordinates: [number, number]
+  }
+  properties: MapaFeatureProperties
+}
+
+export interface MapaResumenResponse {
+  type: 'FeatureCollection'
+  features: MapaGeoFeature[]
+}
+
 // API Response Types
 export interface ApiErrorResponse {
   detail?: string | { loc: string[]; msg: string; type: string }[]
